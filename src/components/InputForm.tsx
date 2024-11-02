@@ -4,6 +4,7 @@ import api from '../services/api'
 import {
   ArrowCircleDown,
   ArrowCircleUp,
+  CheckCircle,
   PencilSimple,
   Trash,
 } from '@phosphor-icons/react'
@@ -21,6 +22,7 @@ export function Input() {
   const [deadline, setDeadline] = useState('')
   const [tasks, setTasks] = useState<Task[]>([])
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null)
+  const [showAlert, setShowAlert] = useState(false)
 
   const baseUrl = 'https://api-tasks-list.onrender.com'
 
@@ -49,6 +51,9 @@ export function Input() {
 
     getTasks()
     clearForm()
+
+    setShowAlert(true)
+    setTimeout(() => setShowAlert(false), 3000)
   }
 
   async function handleDeleteTask(id: number) {
@@ -105,6 +110,12 @@ export function Input() {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-900 text-gray-300 p-4">
+      {showAlert && (
+        <div className="flex items-center gap-1 fixed bottom-4 right-4 bg-green-900 text-white p-3 rounded-lg shadow-lg">
+          Tarefa criada com sucesso!
+          <CheckCircle />
+        </div>
+      )}
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-semibold text-gray-100 mb-4">
           {editingTaskId ? 'Editar Atividade' : 'Inserir Atividade'}
