@@ -30,11 +30,23 @@ export function Input() {
   }
 
   async function handleCreateTask() {
+    const taskExists = tasks.some(
+      task => task.name.toLowerCase() === taskName.toLowerCase()
+    )
+
+    if (taskExists) {
+      alert(
+        'Uma tarefa com esse nome já existe. Por favor, escolha um nome diferente.'
+      )
+      return
+    }
+
     await api.post(`${baseUrl}/tarefas`, {
       name: taskName,
       cost: Number.parseFloat(cost),
       deadline,
     })
+
     getTasks()
     clearForm()
   }
